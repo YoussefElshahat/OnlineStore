@@ -1,9 +1,23 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
-VisualStudioVersion = 17.12.35527.113 d17.12
+VisualStudioVersion = 17.12.35527.113
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JOStore", "JOStore\JOStore.csproj", "{E41BAF03-97D6-413C-82D1-91603DE6EA3D}"
+	ProjectSection(ProjectDependencies) = postProject
+		{24385551-3BED-4B28-90EF-60AA9DB44BD9} = {24385551-3BED-4B28-90EF-60AA9DB44BD9}
+		{BA6B77B2-35E2-4744-9504-85F36D635054} = {BA6B77B2-35E2-4744-9504-85F36D635054}
+		{D67C3F68-098F-439D-B0BA-64FFCA9CD6DA} = {D67C3F68-098F-439D-B0BA-64FFCA9CD6DA}
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Store.DataAccess", "Store.DataAccess\Store.DataAccess.csproj", "{D67C3F68-098F-439D-B0BA-64FFCA9CD6DA}"
+	ProjectSection(ProjectDependencies) = postProject
+		{BA6B77B2-35E2-4744-9504-85F36D635054} = {BA6B77B2-35E2-4744-9504-85F36D635054}
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Store.Models", "Store.Models\Store.Models.csproj", "{BA6B77B2-35E2-4744-9504-85F36D635054}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Store.Utility", "Store.Utility\Store.Utility.csproj", "{24385551-3BED-4B28-90EF-60AA9DB44BD9}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +29,18 @@ Global
 		{E41BAF03-97D6-413C-82D1-91603DE6EA3D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E41BAF03-97D6-413C-82D1-91603DE6EA3D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E41BAF03-97D6-413C-82D1-91603DE6EA3D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D67C3F68-098F-439D-B0BA-64FFCA9CD6DA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D67C3F68-098F-439D-B0BA-64FFCA9CD6DA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D67C3F68-098F-439D-B0BA-64FFCA9CD6DA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D67C3F68-098F-439D-B0BA-64FFCA9CD6DA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BA6B77B2-35E2-4744-9504-85F36D635054}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BA6B77B2-35E2-4744-9504-85F36D635054}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BA6B77B2-35E2-4744-9504-85F36D635054}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BA6B77B2-35E2-4744-9504-85F36D635054}.Release|Any CPU.Build.0 = Release|Any CPU
+		{24385551-3BED-4B28-90EF-60AA9DB44BD9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{24385551-3BED-4B28-90EF-60AA9DB44BD9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{24385551-3BED-4B28-90EF-60AA9DB44BD9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{24385551-3BED-4B28-90EF-60AA9DB44BD9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

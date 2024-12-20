@@ -1,6 +1,6 @@
 using System.Diagnostics;
-using JOStore.Models;
 using Microsoft.AspNetCore.Mvc;
+using Store.Models;
 
 namespace JOStore.Controllers
 {

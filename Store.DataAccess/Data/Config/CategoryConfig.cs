@@ -1,6 +1,6 @@
-﻿using JOStore.Models;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using Store.Models;
 
 namespace JOStore.Data.DataConfig
 {

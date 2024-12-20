@@ -1,6 +1,6 @@
 ﻿using JOStore.Data;
-using JOStore.Models;
 using Microsoft.AspNetCore.Mvc;
+using Store.Models;
 
 namespace JOStore.Controllers
 {

@@ -1,4 +1,4 @@
-namespace JOStore.Models
+namespace Store.Models
 {
     public class ErrorViewModel
     {

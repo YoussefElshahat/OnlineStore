@@ -1,5 +1,5 @@
-﻿using JOStore.Models;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
+using Store.Models;
 
 namespace JOStore.Data
 {
