@@ -1,0 +1,26 @@
+﻿<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
+<link href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css" rel="stylesheet" />
+
+<script type="text/javascript">
+    $(document).ready(function () {
+    @if (TempData["Success"] != null)
+    {
+        <text>
+                    toastr.success('@TempData["Success"]');
+        </text>
+    }
+    @if (TempData["Error"] != null)
+    {
+        <text>
+                    toastr.error('@TempData["Error"]');
+        </text>
+    }
+    @if (TempData["Alert"] != null)
+    {
+        <text>
+                    toastr.warning('@TempData["Alert"]');
+        </text>
+    }
+    });
+</script>

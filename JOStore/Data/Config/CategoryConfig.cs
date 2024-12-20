@@ -9,15 +9,20 @@ namespace JOStore.Data.DataConfig
         public void Configure(EntityTypeBuilder<Category> builder)
         {
             builder.HasKey(x => x.Id);
-            builder.Property(x =>x.Id )
-                .IsRequired().ValueGeneratedNever();
+            builder.Property(x => x.Id)
+              .ValueGeneratedNever();
+
 
             builder.Property(x => x.Name)
                 .HasColumnType("VARCHAR")
                 .HasMaxLength(255)
                 .IsRequired();
+                 
 
-            builder.ToTable("Categories");
+            builder.ToTable("Categories",
+                t => t.HasCheckConstraint
+                ("CK_Entity_Id_NotZero", "[Id] <> 0")); // Enforce that Id cannot be 0.
+            
 
             builder.HasData(LoadCategories());
                 
