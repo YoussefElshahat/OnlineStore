@@ -1,35 +1,36 @@
-﻿using JOStore.Data;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
+using Store.DataAccess.Repository.IRepository;
 using Store.Models;
 
-namespace JOStore.Controllers
+namespace JOStore.Areas.Admin.Controllers
 {
+    [Area("Admin")]
     public class CategoryController : Controller
     {
-        private readonly AppDbContext _appDbContext;
-        public CategoryController(AppDbContext appDbContext)
+        private readonly IUnitOfWork _iUnitOfWork;
+        public CategoryController(IUnitOfWork iUnitOfWork)
         {
-            _appDbContext = appDbContext;
-            
+            _iUnitOfWork = iUnitOfWork;
+
         }
         public IActionResult Index()
         {
-            List<Category> categoryList = _appDbContext.Categories.ToList();
+            List<Category> categoryList = _iUnitOfWork.Category.GetAll().ToList();
             return View(categoryList);
         }
 
-        public IActionResult Create ()
+        public IActionResult Create()
         {
             return View();
-        
+
         }
         [HttpPost]
         public IActionResult Create(Category category)
         {
             if (ModelState.IsValid)
             {
-                _appDbContext.Categories.Add(category);
-                _appDbContext.SaveChanges();
+                _iUnitOfWork.Category.Add(category);
+                _iUnitOfWork.Save();
                 TempData["Success"] = "Category Created Successfully";
                 return RedirectToAction("Index", "Category");
             }
@@ -39,23 +40,20 @@ namespace JOStore.Controllers
 
         public IActionResult Edit(int? Id)
         {
-            if(Id.HasValue == false)
+            if (Id.HasValue == false)
             {
                 return NotFound();
             }
 
-            Category? categoryFromDb = _appDbContext.
-                Categories.Find(Id); //Find is more efficient than FirstOrDefault
-      
-            //because it checks the primary key directly
-            //and utilizes the DbContext's in-memory
-            //tracking before querying the database.
+            Category? categoryFromDb =
+                _iUnitOfWork.Category.Get(x => x.Id == Id);
+
 
             if (categoryFromDb == null)
             {
                 return NotFound();
             }
-            
+
             return View(categoryFromDb);
 
         }
@@ -64,8 +62,8 @@ namespace JOStore.Controllers
         {
             if (ModelState.IsValid)
             {
-                _appDbContext.Categories.Update(category);
-                _appDbContext.SaveChanges();
+                _iUnitOfWork.Category.Update(category);
+                _iUnitOfWork.Save();
                 TempData["Success"] = "Category Updated Successfully";
                 return RedirectToAction("Index", "Category");
             }
@@ -79,12 +77,8 @@ namespace JOStore.Controllers
                 return NotFound();
             }
 
-            Category? categoryFromDb = _appDbContext.
-                Categories.Find(Id); //Find is more efficient than FirstOrDefault
+            Category? categoryFromDb = _iUnitOfWork.Category.Get(x => x.Id == Id);
 
-            //because it checks the primary key directly
-            //and utilizes the DbContext's in-memory
-            //tracking before querying the database.
 
             if (categoryFromDb == null)
             {
@@ -97,16 +91,17 @@ namespace JOStore.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken] // Prevent CSRF attacks
         [ActionName("Delete")]
-        public IActionResult DeleteConfirmed(int id) { 
-            var category = _appDbContext.Categories.Find(id);
+        public IActionResult DeleteConfirmed(int id)
+        {
+            var category = _iUnitOfWork.Category.Get(x => x.Id == id);
 
             if (category == null)
             {
                 return NotFound();
             }
 
-            _appDbContext.Categories.Remove(category);
-            _appDbContext.SaveChanges();
+            _iUnitOfWork.Category.Delete(category);
+            _iUnitOfWork.Save();
             TempData["Alert"] = "Category Deleted Successfully";
             return RedirectToAction("Index", "Category");
         }
