@@ -15,8 +15,7 @@ namespace JOStore.Data.DataConfig
 
             builder.Property(x => x.Name)
                 .HasColumnType("VARCHAR")
-                .HasMaxLength(255)
-                .IsRequired();
+                .IsRequired().HasMaxLength(255);
                  
 
             builder.ToTable("Categories",
