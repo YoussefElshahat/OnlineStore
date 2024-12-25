@@ -25,6 +25,7 @@ app.UseHttpsRedirection();
 app.UseRouting();
 
 app.UseAuthorization();
+app.UseStaticFiles();//This allows ASP.NET Core to serve files from the wwwroot folder.
 
 app.MapStaticAssets();
 

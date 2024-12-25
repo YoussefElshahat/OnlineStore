@@ -10,18 +10,20 @@ namespace JOStore.Areas.Admin.Controllers
     public class ProductController : Controller
     {
         private readonly IUnitOfWork _iUnitOfWork;
-        public ProductController(IUnitOfWork iUnitOfWork)
+        private readonly IWebHostEnvironment _webHostEnvironment;
+        public ProductController(IUnitOfWork iUnitOfWork, IWebHostEnvironment webHostEnvironment)
         {
             _iUnitOfWork = iUnitOfWork;
-
+            _webHostEnvironment = webHostEnvironment;
         }
         public IActionResult Index()
         {
-            List<Product> productList = _iUnitOfWork.Product.GetAll().ToList();
+            List<Product> productList = _iUnitOfWork
+                .Product.GetAll(includeProperties:"Category").ToList();
             return View(productList);
         }
 
-        public IActionResult Create()
+        public IActionResult Upsert(int? Id )
         {
             ProductVM productVM = new ProductVM()
             {
@@ -29,19 +31,62 @@ namespace JOStore.Areas.Admin.Controllers
                 Product = new Product()
     
             };
-            return View(productVM);
+            if (Id == null || Id == 0) 
+            {
+                //Create
+                return View(productVM);
+
+            }
+            else
+            {
+                //update
+                productVM.Product = _iUnitOfWork.Product.Get(x => x.Id == Id);
+                return View(productVM);
+
+            }
         }
         [HttpPost]
-        public IActionResult Create(Product product)
+        public IActionResult Upsert(Product product,IFormFile? file)
         {
-            if (_iUnitOfWork.Product.GetAll().Any(x => x.Id == product.Id))
-            {
-                ModelState.AddModelError("ID", "ID Exist Already");
-            }
-
+            
             if (ModelState.IsValid)
             {
-                _iUnitOfWork.Product.Add(product);
+                string wwwRootPath = _webHostEnvironment.WebRootPath;
+                if (file != null) 
+                {
+                    string fileName = Guid.NewGuid().ToString() 
+                        + Path.GetExtension(file.FileName);
+                    string productPath = Path.Combine(wwwRootPath, "Images", "Product");
+                    if (!string.IsNullOrEmpty(product.ImageUrl))
+                    {
+                        //Delete the old image
+                        var oldImagePath = Path.Combine(wwwRootPath, product.ImageUrl.TrimStart('/').Replace('/', Path.DirectorySeparatorChar));
+                        if (System.IO.File.Exists(oldImagePath))
+                        {
+                            System.IO.File.Delete(oldImagePath);
+                        }
+                        
+                    }
+
+                    using (var fileStream = new FileStream(Path.
+                        Combine(productPath, fileName), FileMode.Create))
+                    {
+                        file.CopyTo(fileStream);
+
+                    }
+                     product.ImageUrl = "/Images/Product/" + fileName;
+
+                }
+                if(product.Id == 0)
+                {
+                    _iUnitOfWork.Product.Add(product);
+
+                }
+                else
+                {
+                    _iUnitOfWork.Product.Update(product);
+
+                }
                 _iUnitOfWork.Save();
                 TempData["Success"] = "Product Created Successfully";
                 return RedirectToAction("Index", "Product");
@@ -59,38 +104,7 @@ namespace JOStore.Areas.Admin.Controllers
 
         }
 
-        public IActionResult Edit(int? Id)
-        {
-            if (Id.HasValue == false)
-            {
-                return NotFound();
-            }
-
-            Product? productFromDb =
-                _iUnitOfWork.Product.Get(x => x.Id == Id);
-
-
-            if (productFromDb == null)
-            {
-                return NotFound();
-            }
-
-            return View(productFromDb);
-
-        }
-        [HttpPost]
-        public IActionResult Edit(Product product)
-        {
-            if (ModelState.IsValid)
-            {
-                _iUnitOfWork.Product.Update(product);
-                _iUnitOfWork.Save();
-                TempData["Success"] = "Product Updated Successfully";
-                return RedirectToAction("Index", "Product");
-            }
-            return View();
-
-        }
+        
         public IActionResult Delete(int? Id)
         {
             if (Id.HasValue == false)
