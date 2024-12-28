@@ -126,7 +126,6 @@ namespace JOStore.Areas.Admin.Controllers
                 {
                     name = product.Name,
                     price = product.Price,
-                    description = product.Description,
                     category = product.Category?.Name, // Avoid full Category object
                     imageUrl = product.ImageUrl,
                     id = product.Id,
