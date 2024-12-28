@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
-namespace JOStore.Migrations
+namespace Store.DataAccess.Migrations
 {
     [DbContext(typeof(AppDbContext))]
     partial class AppDbContextModelSnapshot : ModelSnapshot
@@ -59,7 +59,10 @@ namespace JOStore.Migrations
             modelBuilder.Entity("Store.Models.Product", b =>
                 {
                     b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<int>("CategoryId")
                         .HasColumnType("int");
@@ -76,7 +79,7 @@ namespace JOStore.Migrations
                         .HasColumnType("VARCHAR(MAX)");
 
                     b.Property<decimal>("Price")
-                        .HasColumnType("decimal(18,2)");
+                        .HasColumnType("decimal");
 
                     b.HasKey("Id");
 
@@ -91,7 +94,7 @@ namespace JOStore.Migrations
                     b.HasData(
                         new
                         {
-                            Id = 1,
+                            Id = -1,
                             CategoryId = 1,
                             Description = "Brand: MSI, Model: A520M-A PRO, CPU Support: AMD Ryzen 5000 Series, 5000 G-Series, 4000 G-Series, 3000 Series and 3000 G-Series Processors, CPU Socket: AMD AM4, Chipset: AMD A520, Graphics Interface: 1x PCI-E 3.0 x16 Slot, Display Interface: HDMI, DVI-D – Requires Processor Graphics, Memory Support: 2 DIMMs, Dual Channel DDR4-4600MHz (OC)",
                             ImageUrl = "",
@@ -100,7 +103,7 @@ namespace JOStore.Migrations
                         },
                         new
                         {
-                            Id = 2,
+                            Id = -2,
                             CategoryId = 2,
                             Description = "Brand:AMD, Type: Processor, Processor Family: Ryzen 7, Processor Generation: 9800X3D, Socket Type: AM5, CPU Core: 8, Base Clock: 4.7GHz, Max Boost Clock: Up to 5.2GHz, Total L1 Cache: 640KB, Total L2 Cache: 8MB, Total L3 Cache: 96MB, Processor Graphics: Radeon Graphics 2200 MHz, Max Temperature: 95°C, Warranty: 3 Years ",
                             ImageUrl = "",
@@ -109,7 +112,7 @@ namespace JOStore.Migrations
                         },
                         new
                         {
-                            Id = 3,
+                            Id = -3,
                             CategoryId = 3,
                             Description = "Brand:Zotac Model: GeForce RTX 4060 Ti Twin Edge Type:GraphicsCardCoreClock: Boost:2535MHz,CUDA Cores: 4352,MemoryClock: 18 Gbps, Memory: 16GB - 128-bit - GDDR6",
                             ImageUrl = "",

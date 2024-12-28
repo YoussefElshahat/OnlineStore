@@ -13,8 +13,22 @@ namespace Store.DataAccess.Repository
         }
 
         public void Update(Product product)
-        {
-            _appDbContext.Products.Update(product);
+        { 
+            var productFromDb = _appDbContext.
+                Products.FirstOrDefault(x => x.Id == product.Id);
+            if (product != null)
+            {
+                productFromDb.Name = product.Name;
+                productFromDb.Description = product.Description;
+                productFromDb.CategoryId = product.CategoryId;
+                productFromDb.Price = product.Price;
+                if(product.ImageUrl != null)
+                {
+                    productFromDb.ImageUrl = product.ImageUrl;
+
+                }
+
+            }
         }
 
     }
