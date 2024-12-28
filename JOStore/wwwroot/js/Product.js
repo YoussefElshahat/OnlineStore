@@ -9,7 +9,6 @@ function loadDataTable() {
         "columns": [
             { data: 'name', "width": "15%" },
             { data: 'price', "width": "10%" },
-            { data: 'description', "width": "15%" },
             { data: 'category', "width": "10%" }, // Adjust if category is an object
             {
                 data: 'imageUrl',
