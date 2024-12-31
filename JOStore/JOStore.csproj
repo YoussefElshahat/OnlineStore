@@ -25,11 +25,19 @@
   <ItemGroup>
     <ProjectReference Include="..\Store.DataAccess\Store.DataAccess.csproj" />
     <ProjectReference Include="..\Store.Models\Store.Models.csproj" />
+    <ProjectReference Include="..\Store.Utility\Store.Utility.csproj" />
   </ItemGroup>
 
   <ItemGroup>
     <Folder Include="Areas\Identity\Data\" />
     <Folder Include="wwwroot\Images\Product\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Update="Areas\Identity\Pages\Account\Manage\_ViewStart.cshtml">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
   </ItemGroup>
 
 </Project>

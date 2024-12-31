@@ -3,17 +3,29 @@ using Microsoft.EntityFrameworkCore;
 using Store.DataAccess.Repository;
 using Store.DataAccess.Repository.IRepository;
 using Microsoft.AspNetCore.Identity;
+using Store.Utility;
+using Microsoft.AspNetCore.Identity.UI.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+builder.Services.AddRazorPages();
 builder.Services.AddDbContext<AppDbContext>(options => options
 .UseSqlServer(builder.Configuration.GetConnectionString("DefultConnection")));
 
-builder.Services.AddDefaultIdentity<IdentityUser>().AddEntityFrameworkStores<AppDbContext>();
-builder.Services.AddRazorPages();
+builder.Services.AddIdentity<IdentityUser,IdentityRole>()
+    .AddEntityFrameworkStores<AppDbContext>().AddDefaultTokenProviders();
+builder.Services.ConfigureApplicationCookie(options =>
+{
+    options.LoginPath = "/Identity/Account/Login/";
+    options.LogoutPath = "/Identity/Account/Logout/"; 
+    options.AccessDeniedPath = "/Identity/Account/AccessDenied/"; 
+});
+
 builder.Services.AddScoped<IUnitOfWork,UnitOfWork>();
+
+builder.Services.AddScoped<IEmailSender, EmailSender>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -31,11 +43,16 @@ app.UseAuthorization();
 app.UseStaticFiles();//This allows ASP.NET Core to serve files from the wwwroot folder.
 
 app.MapStaticAssets();
-app.MapRazorPages();
+
+
 app.MapControllerRoute(
     name: "default",
     pattern: "{area=Customer}/{controller=Home}/{action=Index}/{id?}")
     .WithStaticAssets();
+
+app.MapRazorPages();
+
+
 
 
 app.Run();
