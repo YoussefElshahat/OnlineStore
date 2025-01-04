@@ -4,6 +4,7 @@ using JOStore.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Store.DataAccess.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250101070652_CraeteCompanyModelAndConfig")]
+    partial class CraeteCompanyModelAndConfig
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -383,9 +386,6 @@ namespace Store.DataAccess.Migrations
                     b.Property<string>("City")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("CompanyId")
-                        .HasColumnType("int");
-
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(256)
@@ -402,8 +402,6 @@ namespace Store.DataAccess.Migrations
                     b.Property<string>("StreetAddress")
                         .HasMaxLength(256)
                         .HasColumnType("VARCHAR");
-
-                    b.HasIndex("CompanyId");
 
                     b.HasDiscriminator().HasValue("AppUser");
                 });
@@ -470,23 +468,9 @@ namespace Store.DataAccess.Migrations
                     b.Navigation("Category");
                 });
 
-            modelBuilder.Entity("Store.Models.AppUser", b =>
-                {
-                    b.HasOne("Store.Models.Company", "Company")
-                        .WithMany("AppUsers")
-                        .HasForeignKey("CompanyId");
-
-                    b.Navigation("Company");
-                });
-
             modelBuilder.Entity("Store.Models.Category", b =>
                 {
                     b.Navigation("Products");
-                });
-
-            modelBuilder.Entity("Store.Models.Company", b =>
-                {
-                    b.Navigation("AppUsers");
                 });
 #pragma warning restore 612, 618
         }

@@ -21,7 +21,10 @@ namespace Store.DataAccess.Data.Config
                 
             builder.Property(x => x.Region).HasColumnType("VARCHAR").HasMaxLength(256);
             builder.Property(x => x.PostalCode).HasColumnType("VARCHAR").HasMaxLength(256);
-            
+
+            builder.HasOne(u => u.Company)
+                .WithMany(u => u.AppUsers)
+                .HasForeignKey(u => u.CompanyId);
         }
     }
 }

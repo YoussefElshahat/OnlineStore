@@ -9,12 +9,14 @@ namespace Store.DataAccess.Repository
         public ICategoryRepository Category { get; private set; }
 
         public IProductRepository Product { get; private set; }
+        public ICompanyRepository Company { get; private set; }
 
         public UnitOfWork(AppDbContext appDbContext)
         {
           _appDbContext = appDbContext;
             Category = new CategoryRepository(_appDbContext);
             Product = new ProductRepository(_appDbContext);
+            Company = new CompanyRepository(_appDbContext);
         }
 
         public void Save()
