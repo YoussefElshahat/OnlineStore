@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Store.DataAccess.Repository.IRepository;
 using Store.Models;
 using System.Linq.Expressions;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace Store.DataAccess.Repository
 {
@@ -20,11 +21,13 @@ namespace Store.DataAccess.Repository
         {
             _appDbContext.Add(entity);
         }
-        public T Get(Expression<Func<T, bool>> filter, string? includeProperties = null)
+        public T Get(Expression<Func<T, bool>> filter, string? includeProperties = null,bool tracked = false)
         {
-            IQueryable<T> query = dbSet;
-            query = query.Where(filter);
+            IQueryable<T> query;
+            if (tracked) {  query = dbSet; }
+            else { query = dbSet.AsNoTracking();}
 
+            query = query.Where(filter);
             if (!string.IsNullOrEmpty(includeProperties))
             {
                 foreach (var includeProp in includeProperties
@@ -35,9 +38,15 @@ namespace Store.DataAccess.Repository
             }
             return query.FirstOrDefault();
         }
-        public IEnumerable<T> GetAll(string? includeProperties = null)
+        public IEnumerable<T> GetAll(Expression<Func<T, bool>>? filter, string? includeProperties = null)
         {
+
             IQueryable<T> query = dbSet;
+            if(filter != null)
+            {
+                query = query.Where(filter);
+
+            }
 
             if (!string.IsNullOrEmpty(includeProperties))
             {

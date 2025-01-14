@@ -14,9 +14,10 @@
                                 <p class="card-title text-warning text-center">@product.Price.ToString("c")</p>
                             </div>
                         </div>
-                        <a asp-action="Details" asp-route-id="@product.Id"
-                        class="btn btn-primary bg-gradient border-0 form-control">
-                            View Details</a>
+                        <a asp-action="Details" asp-route-ProductId="@product.Id"
+                           class="btn btn-primary bg-gradient border-0 form-control">
+                            View Details
+                        </a>
                     </div>
                 </div>
             </div>

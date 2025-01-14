@@ -10,6 +10,8 @@ namespace Store.DataAccess.Repository
 
         public IProductRepository Product { get; private set; }
         public ICompanyRepository Company { get; private set; }
+        public IShoppingCartRepository ShoppingCart { get; private set; }
+        public IAppUserRepository AppUser { get; private set; }
 
         public UnitOfWork(AppDbContext appDbContext)
         {
@@ -17,6 +19,8 @@ namespace Store.DataAccess.Repository
             Category = new CategoryRepository(_appDbContext);
             Product = new ProductRepository(_appDbContext);
             Company = new CompanyRepository(_appDbContext);
+            ShoppingCart = new ShoppingCartRepository(_appDbContext);
+            AppUser = new AppUserRepository(_appDbContext);
         }
 
         public void Save()
