@@ -102,7 +102,7 @@ namespace JOStore.Areas.Customer.Controllers
             // Calculate the total order price
             ShoppingCartVM.OrderHeader.OrderTotal = ShoppingCartVM.ShoppingCartList
                 .Sum(cart => (double)cart.Product.Price * cart.Count);
-            if (appUser.CompanyId.GetValueOrDefault() == 0)
+            if (appUser.CompanyId.GetValueOrDefault() == null)
             {
                 //it is regular user and we need to capture payment 
                 ShoppingCartVM.OrderHeader.PayementStatus = SD.PaymentStatusPending;

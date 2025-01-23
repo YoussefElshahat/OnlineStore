@@ -23,8 +23,8 @@ namespace Store.Models
         public string? PayementStatus  { get; set; }
         public string? TrackingNumber  { get;set; }
         public string? Carrier { get; set; }
-        public DateTime? PaymentDate { get; set; }
-        public DateOnly PayemntDueDate { get; set; }
+        public DateTime PaymentDate { get; set; }
+        public DateTime PayemntDueDate { get; set; }
         public string? SessionId { get; set; }
         public string? PaymentIntentId { get; set; }
         [Required]
