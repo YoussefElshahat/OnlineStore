@@ -195,7 +195,7 @@ namespace JOStore.Areas.Customer.Controllers
                     .GetAll(u => u.AppUserId == orderHeader.AppUserId)
                     .ToList();
                 _unitOfWork.ShoppingCart.DeleteRange(shoppingCarts);
-
+                HttpContext.Session.Clear();
                 // Save all changes at once
                 _unitOfWork.Save();
             }
@@ -215,18 +215,23 @@ namespace JOStore.Areas.Customer.Controllers
         }
         public IActionResult Minus(int cartId)
         {
-            var cartFromDb = _unitOfWork.ShoppingCart.Get(sc => sc.Id == cartId);
+            var cartFromDb = _unitOfWork.ShoppingCart.Get(sc => sc.Id == cartId,tracked:true);
 
             if (cartFromDb.Count == 1)
             {
                 // If the count is 1, deleting the cart item will result in a count of 0
+                HttpContext.Session.SetInt32(SD.SessionCart, _unitOfWork.ShoppingCart
+                .GetAll(u => u.AppUserId == cartFromDb.AppUserId).Count() - 1);
                 _unitOfWork.ShoppingCart.Delete(cartFromDb);
             }
             else
             {
                 // Otherwise, decrement the count
                 cartFromDb.Count -= 1;
+                HttpContext.Session.SetInt32(SD.SessionCart, _unitOfWork.ShoppingCart
+                .GetAll(u => u.AppUserId == cartFromDb.AppUserId).Count() - 1);
                 _unitOfWork.ShoppingCart.Update(cartFromDb);
+                
             }
 
             _unitOfWork.Save();
@@ -236,8 +241,10 @@ namespace JOStore.Areas.Customer.Controllers
 
         public IActionResult Remove(int cartId)
         {
-            var cartFromDb = _unitOfWork.ShoppingCart.Get(sc => sc.Id == cartId);
+            var cartFromDb = _unitOfWork.ShoppingCart.Get(sc => sc.Id == cartId,tracked:true);
             _unitOfWork.ShoppingCart.Delete(cartFromDb);
+            HttpContext.Session.SetInt32(SD.SessionCart, _unitOfWork.ShoppingCart
+                .GetAll(u => u.AppUserId == cartFromDb.AppUserId).Count() - 1);
             _unitOfWork.Save();
 
             return RedirectToAction(nameof(Index));

@@ -25,6 +25,21 @@ builder.Services.ConfigureApplicationCookie(options =>
     options.LogoutPath = "/Identity/Account/Logout/"; 
     options.AccessDeniedPath = "/Identity/Account/AccessDenied/"; 
 });
+builder.Services.AddAuthentication().AddFacebook(option =>
+{
+    option.AppId = "598992729413034";
+    option.AppSecret = "94f5bca491cf32003c390d707570fd96";
+    
+
+});
+builder.Services.AddDistributedMemoryCache();
+builder.Services.AddSession(options =>
+{
+    options.IdleTimeout = TimeSpan.FromMinutes(100);
+    options.Cookie.HttpOnly = true;
+    options.Cookie.IsEssential = true;
+
+});
 
 builder.Services.AddScoped<IUnitOfWork,UnitOfWork>();
 
@@ -43,6 +58,7 @@ app.UseHttpsRedirection();
 app.UseRouting();
 app.UseAuthentication();
 app.UseAuthorization();
+app.UseSession();
 app.UseStaticFiles();//This allows ASP.NET Core to serve files from the wwwroot folder.
 //Confiure stripe 
 StripeConfiguration.ApiKey = builder.Configuration.GetSection("Stripe:SecretKey").Get<string>();

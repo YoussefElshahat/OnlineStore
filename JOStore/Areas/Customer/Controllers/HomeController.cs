@@ -2,8 +2,10 @@ using System.Diagnostics;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Store.DataAccess.Repository;
 using Store.DataAccess.Repository.IRepository;
 using Store.Models;
+using Store.Utility;
 
 namespace JOStore.Areas.Customer.Controllers
 {
@@ -20,6 +22,7 @@ namespace JOStore.Areas.Customer.Controllers
 
         public IActionResult Index()
         {
+            
             IEnumerable<Product> productsList = _unitOfWork
                 .Product.GetAll(includeProperties: "Category");
             return View(productsList);
@@ -36,13 +39,26 @@ namespace JOStore.Areas.Customer.Controllers
             return View(shoppingCart);
         }
 
-        
+
         [Authorize]
         [HttpPost]
         public IActionResult Details(ShoppingCart shoppingCart)
         {
             var claimsIdentity = (ClaimsIdentity)User.Identity;
-            var userId = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier).Value;
+            var userId = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+
+            if (userId == null || shoppingCart.ProductId == 0)
+            {
+                TempData["error"] = "Invalid user or product information.";
+                return RedirectToAction(nameof(Index));
+            }
+
+            var product = _unitOfWork.Product.Get(p => p.Id == shoppingCart.ProductId);
+            if (product == null)
+            {
+                TempData["error"] = "Product not found.";
+                return RedirectToAction(nameof(Index));
+            }
 
             // Check if the product already exists in the user's cart
             ShoppingCart existingCartItem = _unitOfWork.ShoppingCart.Get(
@@ -51,22 +67,26 @@ namespace JOStore.Areas.Customer.Controllers
 
             if (existingCartItem != null)
             {
-                // Update the quantity if the product already exists in the cart
                 existingCartItem.Count += shoppingCart.Count;
                 _unitOfWork.ShoppingCart.Update(existingCartItem);
             }
             else
             {
-                // Add the new product to the user's cart
                 shoppingCart.AppUserId = userId;
                 _unitOfWork.ShoppingCart.Add(shoppingCart);
+                _unitOfWork.Save();
+                var userCartCount = _unitOfWork.ShoppingCart.GetAll(sc => sc.AppUserId == userId).Count();
+                HttpContext.Session.SetInt32(SD.SessionCart, userCartCount);
             }
 
-            // Save changes to the database
+           
+           
+
             _unitOfWork.Save();
             TempData["success"] = "Cart Updated Successfully";
             return RedirectToAction(nameof(Index));
         }
+
 
 
 
