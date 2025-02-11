@@ -17,7 +17,7 @@ namespace Store.DataAccess.Repository
 
         public void Update(ShoppingCart shoppingCart)
         {
-            _appDbContext.Update(shoppingCart);
+            _appDbContext.ShoppingCarts.Update(shoppingCart);
         }
     }
 }

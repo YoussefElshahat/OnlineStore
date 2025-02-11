@@ -131,7 +131,8 @@ namespace JOStore.Areas.Admin.Controllers
                 .GetAll(u => u.OrderHeader.Id == OrderVM.OrderHeader.Id, includeProperties: "Product");
 
             //Stripe Logic
-            var domain = "https://localhost:7002/";
+            var domain = Request.Scheme + "://" + Request.Host.Value + "/";
+            ;
 
             var options = new SessionCreateOptions
             {

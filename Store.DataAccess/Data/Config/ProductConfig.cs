@@ -46,7 +46,6 @@ namespace Store.DataAccess.Data.Config
                     Price = 2950.00m,
                     Description ="Brand: MSI, Model: A520M-A PRO, CPU Support: AMD Ryzen 5000 Series, 5000 G-Series, 4000 G-Series, 3000 Series and 3000 G-Series Processors, CPU Socket: AMD AM4, Chipset: AMD A520, Graphics Interface: 1x PCI-E 3.0 x16 Slot, Display Interface: HDMI, DVI-D – Requires Processor Graphics, Memory Support: 2 DIMMs, Dual Channel DDR4-4600MHz (OC)",
                     CategoryId = 1,
-                    ImageUrl = "",
                 },
                 new Product
                 {
@@ -55,7 +54,6 @@ namespace Store.DataAccess.Data.Config
                     Price = 27999.00m,
                     Description = "Brand:AMD, Type: Processor, Processor Family: Ryzen 7, Processor Generation: 9800X3D, Socket Type: AM5, CPU Core: 8, Base Clock: 4.7GHz, Max Boost Clock: Up to 5.2GHz, Total L1 Cache: 640KB, Total L2 Cache: 8MB, Total L3 Cache: 96MB, Processor Graphics: Radeon Graphics 2200 MHz, Max Temperature: 95°C, Warranty: 3 Years ",
                     CategoryId = 2,
-                    ImageUrl = "",
 
                 },
                 new Product
@@ -65,7 +63,6 @@ namespace Store.DataAccess.Data.Config
                     Price = 23500.00m,
                     Description = "Brand:Zotac Model: GeForce RTX 4060 Ti Twin Edge Type:GraphicsCardCoreClock: Boost:2535MHz,CUDA Cores: 4352,MemoryClock: 18 Gbps, Memory: 16GB - 128-bit - GDDR6",
                     CategoryId = 3,
-                    ImageUrl = "",
                 }
              };
         }

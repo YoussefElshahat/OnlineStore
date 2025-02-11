@@ -17,7 +17,7 @@ namespace Store.DataAccess.Repository
 
         public void Update(OrderHeader Obj)
         {
-            _appDbContext.Update(Obj);
+            _appDbContext.OrderHeaders.Update(Obj);
         }
 
         public void UpdateStatus(int id, string orderStatus, string? paymentStatus = null)

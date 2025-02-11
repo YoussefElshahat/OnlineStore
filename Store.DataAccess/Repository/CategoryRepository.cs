@@ -17,7 +17,7 @@ namespace Store.DataAccess.Repository
 
         public void Update(Category category)
         {
-            _appDbContext.Update(category);
+            _appDbContext.Categories.Update(category);
         }
     }
 }

@@ -24,7 +24,7 @@ namespace JOStore.Areas.Customer.Controllers
         {
             
             IEnumerable<Product> productsList = _unitOfWork
-                .Product.GetAll(includeProperties: "Category");
+                .Product.GetAll(includeProperties: "Category,ProductImages");
             return View(productsList);
         }
         public IActionResult Details(int ProductId)
@@ -32,7 +32,7 @@ namespace JOStore.Areas.Customer.Controllers
             ShoppingCart shoppingCart = new()
             {
                 Product = _unitOfWork
-                .Product.Get(p => p.Id == ProductId, includeProperties: "Category"),
+                .Product.Get(p => p.Id == ProductId, includeProperties: "Category,ProductImages"),
                 Count = 1,
                 ProductId = ProductId
             };

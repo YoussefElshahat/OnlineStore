@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Identity;
 using Store.Utility;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Stripe;
+using Store.DataAccess.DbInitializer;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -29,8 +30,6 @@ builder.Services.AddAuthentication().AddFacebook(option =>
 {
     option.AppId = "598992729413034";
     option.AppSecret = "94f5bca491cf32003c390d707570fd96";
-    
-
 });
 builder.Services.AddDistributedMemoryCache();
 builder.Services.AddSession(options =>
@@ -42,7 +41,7 @@ builder.Services.AddSession(options =>
 });
 
 builder.Services.AddScoped<IUnitOfWork,UnitOfWork>();
-
+builder.Services.AddScoped<IDbInitializer, DbInitializer>();
 builder.Services.AddScoped<IEmailSender, EmailSender>();
 var app = builder.Build();
 
@@ -61,6 +60,7 @@ app.UseAuthorization();
 app.UseSession();
 app.UseStaticFiles();//This allows ASP.NET Core to serve files from the wwwroot folder.
 //Confiure stripe 
+SeedDataBase();
 StripeConfiguration.ApiKey = builder.Configuration.GetSection("Stripe:SecretKey").Get<string>();
 app.MapStaticAssets();
 
@@ -72,7 +72,13 @@ app.MapControllerRoute(
 
 app.MapRazorPages();
 
-
-
-
 app.Run();
+
+void SeedDataBase()
+{
+    using(var scope = app.Services.CreateScope())
+    {
+        var dbInitializer = scope.ServiceProvider.GetRequiredService<IDbInitializer>();
+        dbInitializer.Initialize();
+    }
+}

@@ -22,11 +22,8 @@ namespace Store.DataAccess.Repository
                 productFromDb.Description = product.Description;
                 productFromDb.CategoryId = product.CategoryId;
                 productFromDb.Price = product.Price;
-                if(product.ImageUrl != null)
-                {
-                    productFromDb.ImageUrl = product.ImageUrl;
-
-                }
+                productFromDb.ProductImages = product.ProductImages;
+                
 
             }
         }

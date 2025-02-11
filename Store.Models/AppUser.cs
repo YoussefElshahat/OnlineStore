@@ -1,10 +1,5 @@
 ﻿using Microsoft.AspNetCore.Identity;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
+using System.ComponentModel.DataAnnotations.Schema;
 namespace Store.Models
 {
     public class AppUser : IdentityUser
@@ -16,5 +11,7 @@ namespace Store.Models
         public string? PostalCode { get; set; }
         public int? CompanyId { get; set; }
         public Company? Company { get; set; }
+        [NotMapped]
+        public string Role { get; set; }
     }
 }

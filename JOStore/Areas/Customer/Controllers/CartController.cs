@@ -33,10 +33,12 @@ namespace JOStore.Areas.Customer.Controllers
                 includeProperties: "Product"),
                 OrderHeader = new()
             };
-
+            IEnumerable<ProductImage> productImages = _unitOfWork.ProductImage.GetAll();
+        
             // Calculate the total order price
             foreach (var cart in shoppingCartVM.ShoppingCartList)
             {
+                cart.Product.ProductImages = productImages.Where(pi => pi.ProductId == cart.ProductId).ToList();
                 shoppingCartVM.OrderHeader.OrderTotal += (double)cart.Product.Price * cart.Count;
             }
 
@@ -133,7 +135,7 @@ namespace JOStore.Areas.Customer.Controllers
             {
                 //it is regular user and we need to capture payment 
                 //Stripe Logic
-                var domain = "https://localhost:7002/";
+                var domain = Request.Scheme+"://"+Request.Host.Value+"/";
 
                 var options = new SessionCreateOptions
                 {

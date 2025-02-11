@@ -17,7 +17,7 @@ namespace Store.DataAccess.Repository
 
         public void Update(OrderDetail Obj)
         {
-            _appDbContext.Update(Obj);
+            _appDbContext.OrderDetails.Update(Obj);
         }
     }
 }
