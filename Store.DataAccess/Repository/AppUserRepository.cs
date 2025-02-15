@@ -12,6 +12,10 @@ namespace Store.DataAccess.Repository
         {
             _appDbContext = appDbContext;
         }
+        public void Update(AppUser appUser)
+        {
+            _appDbContext.AppUsers.Update(appUser);
+        }
 
 
 
